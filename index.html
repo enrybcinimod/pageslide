@@ -2,8 +2,16 @@
 <html lang="en">
 <head>
   	<title>jQuery PageSlide Demo</title>
+  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   	<!--  The jquery.pageslide.css stylesheet has the class that you'll need on your page -->
   	<link rel="stylesheet" type="text/css" href="./jquery.pageslide.css" />
+
+    <script src="./lib/jquery-1.7.1.min.js"></script>
+    <script src="./jquery.pageslide.min.js"></script>
+
+
+
+    
   	<style>
   	
   	    body { 
@@ -25,108 +33,85 @@
             margin: 0 auto;
         }
             #content h1 { color: #333; line-height: 1em; }
-            #content ul { padding-left: 0; list-style: none; }
-                #content ul li { margin-bottom: 20px; }
+            
+            ul#nav { padding-left: 0; list-style: none; width: 100%; margin-bottom: 40px; }
+            ul#nav:after { content: "\0020"; display: block; height: 0; clear: both; visibility: hidden; }
+            
+                #content ul#nav li { float: left; width: 20%; text-align: center; }
+                #content ul#nav a { 
+                        display: block; 
+                        background: #000;
+                        color: #FFF; 
+                        font-weight: bold; 
+                        padding: 10px; 
+                        border-right: 1px solid #FFF;
+                }
+                #content ul#nav a:hover { background: #333; }
 
-        #modal { display: none; }
-            #modal a { background: #CCC; color: #333; font-weight: bold; padding: 5px 10px; border: none; }
-            #modal a:hover { background: #aaa; } 
-
-        pre { border: 1px solid #CCC; background-color: #EEE; color: #333; padding: 10px 20px; }
+        .open {
+            display: none;
+            float: left;
+            width: 40px;
+            height: 30px;
+            margin-right: 10px;
+            background: url(menu.png) center center no-repeat #333;
+            -moz-border-radius: 8px;
+            -webkit-border-radius: 8px;
+            -border-radius: 8px;
+            box-shadow: inset 0 0 3px #000;
+            text-indent: -999999px;
+            border: 0;
+        }
+        
+        /* Media Queries
+        * 
+        * Note: Please don't base your responsive design off of this code. It is just here for demo purposes.
+        * Rather, grab yourself a copy of Ethan's book: http://www.abookapart.com/products/responsive-web-design
+        ================================================== */
+        
+        /* Mobile and iPad Portrait */
+    	@media only screen and (max-width: 959px) {
+    	    #content { width: 748px; }
+    	}
+    	
+    	/* Mobile Landscape and Portrait */
+    	@media only screen and (max-width: 767px) {
+    	    #content { width: 400px; }
+    	    #content h1 { font-size: 22px; line-height: 30px; background-color: #000; color: #FFF; padding: 10px; }
+    	    #content ul#nav { display: none; }
+    	    
+    	    .open { display: block; }
+    	    #pageslide { width: 200px; }
+    	        #pageslide #nav li { padding: 10px 0; border-bottom: 1px solid #666; }
+    	        #pageslide #nav li a { color: #FFF; border: none; }
+    	        #pageslide #nav li a:hover { text-decoration: underline; }
+    	}
+    	
+    	/* Mobile Portrait */
+        @media only screen and (max-width: 479px) {
+            #content { width: 280px; }
+            #content h1 { font-size: 14px; }
+        }
         
     </style>
 </head>
 <body>
     <div id="content">
-        <h1>PageSlide Basic Demo</h1>
-        <p>Below are a couple examples of how the plugin works:</p>
-        <ul>
-            <li>
-                <a href="_secondary.html" class="first">Slide to the right, and load content from a secondary page.</a>
-                <pre>
-&lt;a href=&quot;_secondary.html&quot; class=&quot;first&quot;&gt;Link text&lt;/a&gt;
-&lt;script&gt;
-    $(&quot;a.first&quot;).pageslide();
-&lt;/script&gt;
-                </pre>
-            </li>
-            <li>
-                <a href="#modal" class="second">Slide to the left, and display hidden content from this page in a modal pane.</a>
-                <pre>
-&lt;a href=&quot;#modal&quot; class=&quot;second&quot;&gt;Link text&lt;/a&gt;
-&lt;div id=&quot;modal&quot; style=&quot;display:none&quot;&gt;
-    &lt;h2&gt;Modal&lt;/h2&gt;
-    &lt;a href=&quot;javascript:$.pageslide.close()&quot;&gt;Close&lt;/a&gt;
-&lt;/div&gt;
-&lt;script&gt;
-    $(&quot;.second&quot;).pageslide({ direction: &quot;left&quot;, modal: true });
-&lt;/script&gt;
-                </pre>
-            </li>
-            <li>
-                <a href="javascript:$.pageslide({ direction: 'left', href: '_secondary.html' })">Open the page programatically.</a>
-                <pre>
-&lt;a href=&quot;javascript:$.pageslide({ direction: &#39;left&#39;, href=&#39;_secondary.html&#39; })&quot;&gt;Link text&lt;/a&gt;
-                </pre>
-            </li>
+        <h1><a class="open" href="#nav">Menu</a>PageSlide Responsive Demo</h1>
+        <ul id="nav">
+            <li><a href="">Menu Item 1</a></li>
+            <li><a href="">Menu Item 2</a></li>
+            <li><a href="">Menu Item 3</a></li>
+            <li><a href="">Menu Item 4</a></li>
+            <li><a href="">Menu Item 5</a></li>
         </ul>
-        <div id="modal">
-            <h2>Modal</h2>
-            <div id="cwrap">
-                        <div id="nowPlay" class="is-audio">
-                            <h3 id="npAction">Paused:</h3>
-                            <div id="npTitle">7sampled</div>
-                        </div>
-                        <div id="audiowrap">
-                            <div id="audio0">
-                                <audio id="audio1" controls="controls" src="./music/DEEPER LOVE INTRO.mp3">
-                                    Your browser does not support the HTML5 Audio Tag.
-                                </audio>
-                            </div>
-                            <noscript>Your browser does not support JavaScript or JavaScript has been disabled. You will need to enable JavaScript for this page.</noscript>
-                            <div id="extraControls" class="is-audio">
-                                <button id="btnPrev" class="ctrlbtn">|&lt;&lt;</button> <button id="btnNext" class="ctrlbtn">&gt;&gt;|</button>
-                            </div>
-                        </div>
-                        <div id="plwrap" class="is-audio">
-                            <div class="plHead">
-                            </div>
-                            <div class="clear"></div>
-                            <ul id="plUL">
-                                <li class="plItem plSel">
-                                    <div class="plNum">1</div>
-                                    <div class="plTitle">7 sampled</div>
-                                </li>
-                                <li class="plItem">
-                                    <div class="plNum">2</div>
-                                    <div class="plTitle">intro</div>
-
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-
-            <p><a href="javascript:$.pageslide.close()">Close</a></p>
+        <div class="copy">
+            <p>If you've ever used the <a href="http://m.facebook.com">mobile version of Facebook</a>, or <a href="http://www.path.com">Path</a>, then you've probably seen something akin to PageSlide in action.</p>
+            <p>In this example, resizing the browser to a smaller window (less than or equal to an iPhone's landscape view) will collapse and hide the faux menu nav above. Clicking on the menu icon will then trigger PageSlide to open.</a>
         </div>
     </div>
-
-
-
-
-
-
-
-
-    <script src="./lib/jquery-1.7.1.min.js"></script>
-    <script src="./jquery.pageslide.min.js"></script>
     <script>
-        /* Default pageslide, moves to the right */
-        $(".first").pageslide();
-        
-        /* Slide to the left, and make it model (you'll have to call $.pageslide.close() to close) */
-        $(".second").pageslide({ direction: "left", modal: true });
+        $(".open").pageslide();
     </script>
 </body>
 </html>
